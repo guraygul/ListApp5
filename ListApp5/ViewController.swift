@@ -11,25 +11,45 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var tableView: UITableView!
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     // Load tasks from UserDefaults or use an empty array if not available
-    var tasks: [String] = UserDefaults.standard.stringArray(forKey: "tasks") ?? []
+    private var tasks = [ToDoListItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // Get items from CoreData
+        fetchData()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tasks.count
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let task = tasks[indexPath.row]
+        let task = self.tasks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
-        cell.textLabel?.text = task
+        cell.textLabel?.text = task.name
         return cell
+    }
+    
+    // MARK: Fetching Data
+    func fetchData() {
+        // Fetch the data from CoreData to display in the tableview
+        do {
+            tasks = try context.fetch(ToDoListItem.fetchRequest())
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        catch {
+            // error handling
+        }
     }
     
     // MARK: Add Button
@@ -40,11 +60,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let ok = UIAlertAction(title: "OK", style: .default) { (action) in
                     
             if let textField = alert.textFields?.first, let newTask = textField.text, !newTask.isEmpty {
-                self.tasks.append(newTask)
-                self.saveTasksToUserDefaults()
-                self.tableView.reloadData()
+
+                let newItem = ToDoListItem(context: self.context)
+                newItem.name = newTask
+                self.tasks.append(newItem)
+
+                self.saveData()
             }
-            
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
@@ -70,9 +92,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: Swipe Delete Action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
-            self.tasks.remove(at: indexPath.row)
-            self.saveTasksToUserDefaults()
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
+            
+            // Which task to remove
+            let taskToRemove = self.tasks[indexPath.row]
+            
+            // Remove the task
+            self.context.delete(taskToRemove)
+
+            self.saveData()
             self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
         }
         
@@ -85,12 +113,45 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let movedTask = tasks.remove(at: sourceIndexPath.row)
         tasks.insert(movedTask, at: destinationIndexPath.row)
         
-        saveTasksToUserDefaults()
+        saveData()
     }
     
-    // MARK: Save tasks to UserDefaults
-    func saveTasksToUserDefaults() {
-        UserDefaults.standard.set(tasks, forKey: "tasks")
+    // MARK: Edit Action
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Which task to edit
+        let taskToEdit = self.tasks[indexPath.row]
+        
+        // Create Alert
+        let alert = UIAlertController(title: "Edit Task", message: "Edit Task", preferredStyle: .alert)
+        alert.addTextField()
+        
+        let textField = alert.textFields?.first
+        textField?.text = taskToEdit.name
+        
+        let saveButton = UIAlertAction(title: "Save", style: .default) { (action) in
+            
+            // Get the textfield for the alert
+            let textField = alert.textFields?.first
+            
+            // Edit task property of tasks object
+            taskToEdit.name = textField?.text
+
+            self.saveData()
+        }
+        alert.addAction(saveButton)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: Save Data
+    func saveData() {
+        do {
+            try self.context.save()
+        }
+        catch {
+            // Error handling
+        }
+        self.fetchData()
     }
 }
 
