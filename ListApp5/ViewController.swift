@@ -110,12 +110,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: Move Action
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedTask = tasks.remove(at: sourceIndexPath.row)
-        tasks.insert(movedTask, at: destinationIndexPath.row)
+        //let movedTask = tasks.remove(at: sourceIndexPath.row)
+        //tasks.insert(movedTask, at: destinationIndexPath.row)
+        tasks.swapAt(sourceIndexPath.row, destinationIndexPath.row)
         
         saveData()
     }
     
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+
     // MARK: Edit Action
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
