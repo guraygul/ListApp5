@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1034E24A2B40D79D00722749 /* ToDoListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1034E2482B40D79D00722749 /* ToDoListItem+CoreDataClass.swift */; };
+		1034E24B2B40D79D00722749 /* ToDoListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1034E2492B40D79D00722749 /* ToDoListItem+CoreDataProperties.swift */; };
 		109E16A82B3DBF0A00A4E5FA /* ListApp5.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 109E16A62B3DBF0A00A4E5FA /* ListApp5.xcdatamodeld */; };
-		109E16AB2B3DC27D00A4E5FA /* ToDoListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109E16A92B3DC27D00A4E5FA /* ToDoListItem+CoreDataClass.swift */; };
-		109E16AC2B3DC27D00A4E5FA /* ToDoListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109E16AA2B3DC27D00A4E5FA /* ToDoListItem+CoreDataProperties.swift */; };
 		10D1E47F2B3CA1F200848800 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D1E47E2B3CA1F200848800 /* AppDelegate.swift */; };
 		10D1E4812B3CA1F200848800 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D1E4802B3CA1F200848800 /* SceneDelegate.swift */; };
 		10D1E4832B3CA1F200848800 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D1E4822B3CA1F200848800 /* ViewController.swift */; };
@@ -19,9 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1034E2482B40D79D00722749 /* ToDoListItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoListItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1034E2492B40D79D00722749 /* ToDoListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		109E16A72B3DBF0A00A4E5FA /* ListApp5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ListApp5.xcdatamodel; sourceTree = "<group>"; };
-		109E16A92B3DC27D00A4E5FA /* ToDoListItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoListItem+CoreDataClass.swift"; sourceTree = "<group>"; };
-		109E16AA2B3DC27D00A4E5FA /* ToDoListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		10D1E47B2B3CA1F200848800 /* ListApp5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ListApp5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10D1E47E2B3CA1F200848800 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10D1E4802B3CA1F200848800 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,8 +46,8 @@
 		109E16AD2B3DC28900A4E5FA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				109E16A92B3DC27D00A4E5FA /* ToDoListItem+CoreDataClass.swift */,
-				109E16AA2B3DC27D00A4E5FA /* ToDoListItem+CoreDataProperties.swift */,
+				1034E2482B40D79D00722749 /* ToDoListItem+CoreDataClass.swift */,
+				1034E2492B40D79D00722749 /* ToDoListItem+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -158,8 +158,8 @@
 				10D1E4832B3CA1F200848800 /* ViewController.swift in Sources */,
 				10D1E47F2B3CA1F200848800 /* AppDelegate.swift in Sources */,
 				10D1E4812B3CA1F200848800 /* SceneDelegate.swift in Sources */,
-				109E16AB2B3DC27D00A4E5FA /* ToDoListItem+CoreDataClass.swift in Sources */,
-				109E16AC2B3DC27D00A4E5FA /* ToDoListItem+CoreDataProperties.swift in Sources */,
+				1034E24A2B40D79D00722749 /* ToDoListItem+CoreDataClass.swift in Sources */,
+				1034E24B2B40D79D00722749 /* ToDoListItem+CoreDataProperties.swift in Sources */,
 				109E16A82B3DBF0A00A4E5FA /* ListApp5.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

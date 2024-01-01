@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Get items from CoreData
         fetchData()
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
     }
@@ -41,7 +41,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func fetchData() {
         // Fetch the data from CoreData to display in the tableview
         do {
-            tasks = try context.fetch(ToDoListItem.fetchRequest())
+            let request = ToDoListItem.fetchRequest()
+            request.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
+            tasks = try context.fetch(request)
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -58,19 +60,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         alert.addTextField()
         
         let ok = UIAlertAction(title: "OK", style: .default) { (action) in
-                    
+            
             if let textField = alert.textFields?.first, let newTask = textField.text, !newTask.isEmpty {
-
+                
                 let newItem = ToDoListItem(context: self.context)
                 newItem.name = newTask
+                newItem.order = Int64(self.tasks.count) // Adding new items to the bottom of the list
+                
                 self.tasks.append(newItem)
-
+                
                 self.saveData()
             }
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
-        // Do nothing
+            // Do nothing
         }
         
         alert.addAction(ok)
@@ -99,7 +103,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             // Remove the task
             self.context.delete(taskToRemove)
-
+            
             self.saveData()
             self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
         }
@@ -110,18 +114,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: Move Action
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        //let movedTask = tasks.remove(at: sourceIndexPath.row)
-        //tasks.insert(movedTask, at: destinationIndexPath.row)
-        tasks.swapAt(sourceIndexPath.row, destinationIndexPath.row)
         
+        let movedTask = self.tasks.remove(at: sourceIndexPath.row)
+        tasks.insert(movedTask, at: destinationIndexPath.row)
+        
+        updateOrderValues()
         saveData()
     }
     
+    func updateOrderValues() {
+        for (index, task) in tasks.enumerated() {
+            print("Task İsmi: \(String(describing: task.name))")
+            print("Önceki sıra: \(task.order)")
+            task.order = Int64(index)
+            print("Önceki sonraki: \(task.order)")
+        }
+    }
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-
     // MARK: Edit Action
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -142,7 +154,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             // Edit task property of tasks object
             taskToEdit.name = textField?.text
-
+            
             self.saveData()
         }
         alert.addAction(saveButton)

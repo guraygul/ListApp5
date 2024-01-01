@@ -2,7 +2,7 @@
 //  ToDoListItem+CoreDataProperties.swift
 //  ListApp5
 //
-//  Created by Güray Gül on 28.12.2023.
+//  Created by Güray Gül on 31.12.2023.
 //
 //
 
@@ -17,6 +17,7 @@ extension ToDoListItem {
     }
 
     @NSManaged public var name: String?
+    @NSManaged public var order: Int64
 
 }
 
