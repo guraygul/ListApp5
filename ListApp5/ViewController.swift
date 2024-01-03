@@ -124,10 +124,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func updateOrderValues() {
         for (index, task) in tasks.enumerated() {
-            print("Task İsmi: \(String(describing: task.name))")
-            print("Önceki sıra: \(task.order)")
             task.order = Int64(index)
-            print("Önceki sonraki: \(task.order)")
         }
     }
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
